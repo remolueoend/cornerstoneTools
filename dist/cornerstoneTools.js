@@ -1,4 +1,4 @@
-/*! cornerstoneTools - v0.7.9 - 2016-10-03 | (c) 2014 Chris Hafey | https://github.com/chafey/cornerstoneTools */
+/*! cornerstoneTools - v0.7.9 - 2016-10-25 | (c) 2014 Chris Hafey | https://github.com/chafey/cornerstoneTools */
 // Begin Source: src/header.js
 if (typeof cornerstone === 'undefined') {
     cornerstone = {};
@@ -8421,11 +8421,27 @@ if (typeof cornerstoneTools === 'undefined') {
                 return;
             }
 
+            function requestTypeToLoadPriority(requestDetails) {
+                if (requestDetails.type === 'prefetch') {
+                    return -5;
+                } else if (requestDetails.type === 'interactive') {
+                    return 0;
+                } else if (requestDetails.type === 'thumbnail') {
+                    return 5;
+                }
+            }
+
+            var priority = requestTypeToLoadPriority(requestDetails);
+
             var loader;
             if (requestDetails.preventCache === true) {
-                loader = cornerstone.loadImage(imageId);
+                loader = cornerstone.loadImage(imageId, {
+                    priority: priority
+                });
             } else {
-                loader = cornerstone.loadAndCacheImage(imageId);
+                loader = cornerstone.loadAndCacheImage(imageId, {
+                    priority: priority
+                });
             }
 
             // Load and cache the image
@@ -11719,9 +11735,10 @@ Display scroll progress bar across bottom of image.
                 return;
             }
 
-            // Check if the element is still enabled in Cornerstone, 
+            // Check if the element is still enabled in Cornerstone,
             // if an error is thrown, stop here.
             try {
+                // TODO: Add 'isElementEnabled' to Cornerstone?
                 cornerstone.getEnabledElement(element);
             } catch(error) {
                 return;
