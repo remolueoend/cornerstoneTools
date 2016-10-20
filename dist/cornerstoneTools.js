@@ -8028,43 +8028,8 @@ if (typeof cornerstoneTools === 'undefined') {
 
     'use strict';
 
-    // this module defines a way for tools to access various metadata about an imageId.  This layer of abstraction exists
-    // so metadata can be provided to the tools in different ways (e.g. by parsing DICOM P10 or by a WADO-RS document)
-    // NOTE: We may want to push this function down into the cornerstone core library, not sure yet...
-
-    var providers = [];
-
-    function addProvider( provider) {
-        providers.push(provider);
-    }
-
-    function removeProvider( provider) {
-        var index = providers.indexOf(provider);
-        if (index === -1) {
-            return;
-        }
-
-        providers.splice(index, 1);
-    }
-
-    function getMetaData(type, imageId) {
-        var result;
-        $.each(providers, function(index, provider) {
-            result = provider(type, imageId);
-            if (result !== undefined) {
-                return true;
-            }
-        });
-        return result;
-    }
-
     // module/private exports
-    cornerstoneTools.metaData = {
-        addProvider: addProvider,
-        removeProvider: removeProvider,
-        get: getMetaData
-    };
-
+    cornerstoneTools.metaData = cornerstone.metaData;
 })($, cornerstone, cornerstoneTools);
  
 // End Source; src/metaData.js
@@ -8416,11 +8381,29 @@ if (typeof cornerstoneTools === 'undefined') {
                 return;
             }
 
+            function requestTypeToLoadPriority(requestDetails) {
+                if (requestDetails.type === 'prefetch') {
+                    return -5;
+                } else if (requestDetails.type === 'interactive') {
+                    return 0;
+                } else if (requestDetails.type === 'thumbnail') {
+                    return 5;
+                }
+            }
+
+            var priority = requestTypeToLoadPriority(requestDetails);
+
             var loader;
             if (requestDetails.preventCache === true) {
-                loader = cornerstone.loadImage(imageId);
+                loader = cornerstone.loadImage(imageId, {
+                    priority: priority,
+                    type: requestDetails.type
+                });
             } else {
-                loader = cornerstone.loadAndCacheImage(imageId);
+                loader = cornerstone.loadAndCacheImage(imageId, {
+                    priority: priority,
+                    type: requestDetails.type
+                });
             }
 
             // Load and cache the image
