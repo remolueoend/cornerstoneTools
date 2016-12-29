@@ -47,7 +47,9 @@ module.exports = function(grunt) {
                     'src/imageTools/touchDragTool.js',
                     'src/imageTools/touchPinchTool.js',
                     'src/imageTools/touchTool.js',
-                    'src/**/*.js'
+                    'src/**/*.js',
+                    '!src/footer.js',
+                    'src/footer.js'
                 ],
                 dest: 'build/built.js',
                 options: {

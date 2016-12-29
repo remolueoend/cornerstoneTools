@@ -1,10 +1,7 @@
-if (typeof cornerstone === 'undefined') {
-    cornerstone = {};
-}
-
-if (typeof dicomParser === 'undefined') {
-    dicomParser = {};
-}
+var cornerstone = require('../../cornerstone/build/built');
+var dicomParser = require('dicom-parser');
+var $ = require('jquery');
+var cornerstoneMath = require('../../cornerstoneMath/build/built');
 
 if (typeof cornerstoneTools === 'undefined') {
     cornerstoneTools = {
