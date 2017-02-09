@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
     // Project configuration.
     grunt.initConfig({
@@ -10,13 +10,13 @@ module.exports = function(grunt) {
                 ]
             }
         },
-      version: {
-        // options: {},
-        defaults: {
-          src: ['src/version.js', 'bower.json']
-        }
-      },
-      copy: {
+        version: {
+            // options: {},
+            defaults: {
+                src: ['src/version.js', 'bower.json']
+            }
+        },
+        copy: {
             bower: {
                 src: [
                     'bower_components/jquery/dist/jquery.min.js',
@@ -35,7 +35,7 @@ module.exports = function(grunt) {
         },
         concat: {
             build: {
-                src : [
+                src: [
                     'src/header.js',
                     'src/inputSources/mouseWheelInput.js',
                     'src/inputSources/mouseInput.js',
@@ -62,23 +62,11 @@ module.exports = function(grunt) {
                 options: {
                     stripBanners: true,
                     banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-                        '<%= grunt.template.today("yyyy-mm-dd") %> ' +
-                        '| (c) 2014 Chris Hafey | https://github.com/chafey/cornerstoneTools */\n'
-                },
-                src : ['build/built.js'],
-                dest: 'dist/cornerstoneTools.js'
-            }
-        },
-        uglify: {
-            dist: {
-                files: {
-                    'dist/cornerstoneTools.min.js': ['dist/cornerstoneTools.js']
-                }
-            },
-            options: {
-                banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
                     '<%= grunt.template.today("yyyy-mm-dd") %> ' +
                     '| (c) 2014 Chris Hafey | https://github.com/chafey/cornerstoneTools */\n'
+                },
+                src: ['build/built.js'],
+                dest: 'dist/cornerstoneTools.js'
             }
         },
         watch: {
@@ -92,7 +80,7 @@ module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
-    grunt.registerTask('buildAll', ['copy', 'concat:build', 'concat:dist', 'uglify']);
+    grunt.registerTask('buildAll', ['copy', 'concat:build', 'concat:dist']);
     grunt.registerTask('default', ['clean', 'buildAll']);
 };
 
