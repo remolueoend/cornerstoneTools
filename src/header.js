@@ -1,7 +1,7 @@
-var cornerstone = require('cornerstone');
+var cornerstone = require('../../cornerstone/dist/cornerstone');
 var dicomParser = require('dicom-parser');
 var $ = require('jquery');
-var cornerstoneMath = require('cornerstoneMath');
+var cornerstoneMath = require('../../cornerstoneMath/dist/cornerstoneMath');
 
 if (typeof cornerstoneTools === 'undefined') {
     cornerstoneTools = {

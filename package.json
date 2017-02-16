@@ -29,8 +29,6 @@
     "jscs": "~2.9.0"
   },
   "dependencies": {
-    "cornerstone": "git+https://github.com/remolueoend/cornerstone.git",
-    "cornerstoneMath": "git+https://github.com/remolueoend/cornerstoneMath.git",
     "dicom-parser": "^1.7.4",
     "jquery": "^2.1.4"
   }
